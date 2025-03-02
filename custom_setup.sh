@@ -1,29 +1,34 @@
+#!/bin/bash
+
+# For ghostty
 sed -i '1i export TERM=xterm-256color' ~/.bashrc
 source ~/.bashrc 
+
+# Generate ssh key pair
 ssh-keygen -t rsa -C tao-wei_chan -f ~/.ssh/id_rsa -N ""
+cat ~/.ssh/id_rsa.pub
+read -p "Copy and add the public key to github and ado, then Enter to continue..."
 
 # Set up git
 git config --global user.name "Tao-Wei Chan"
 git config --global user.email "taowei.c@outlook.com"
 
-cat ~/.ssh/id_rsa.pub
-
-# Pause and wait for Enter
-read -p "Copy and add the public key to github and ado, then Enter to continue..."
-
-# Set up 
+# Set up tmux
+mkdir -p ~/dev
 git clone git@github.com:Lucien0907/configs.git ~/dev/configs
 cp ~/dev/configs/.tmux.conf ~/
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 mkdir -p ~/.config/tmux/plugins/catppuccin
 git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
+~/.tmux/plugins/tpm/bin/install_plugins
 
 # Install yazi
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source ~/.bashrc 
-. "$HOME/.cargo/env"
-rustup update
-cargo install --locked yazi-fm yazi-cli
+git clone git@github.com:Lucien0907/yazi-config.git ~/.config/yazi
+curl -L -o yazi.zip https://github.com/sxyazi/yazi/releases/download/v25.3.2/yazi-x86_64-unknown-linux-gnu.zip
+unzip -q yazi.zip && rm yazi.zip
+sudo rm -rf /opt/yazi && sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
+echo 'export PATH="/opt/yazi:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
 # Install pyenv
 sudo apt update && sudo apt upgrade -y
@@ -55,7 +60,7 @@ source ~/.bashrc
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-echo 'export PATH="$PATH:/opt/nvim-linux-x86_64/bin"' >> ~/.bashrc
+echo 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 sudo apt install -y imagemagick libmagickwand-dev
 git clone -b linux https://github.com/Lucien0907/nvim.git ~/.config/nvim
@@ -89,11 +94,4 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 
-# Install the Docker packages.
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# Manage Docker as a non-root user
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
-docker run hello-world
+# Install the Docker
