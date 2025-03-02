@@ -1,18 +1,22 @@
-# ssh-keygen -t rsa -C tao-wei_chan -f ~/.ssh/id_rsa -N ""
-
 sed -i '1i export TERM=xterm-256color' ~/.bashrc
 source ~/.bashrc 
+ssh-keygen -t rsa -C tao-wei_chan -f ~/.ssh/id_rsa -N ""
 
 # Set up git
 git config --global user.name "Tao-Wei Chan"
 git config --global user.email "taowei.c@outlook.com"
 
-# Set up tmux
+cat ~/.ssh/id_rsa.pub
+
+# Pause and wait for Enter
+read -p "Copy and add the public key to github and ado, then Enter to continue..."
+
+# Set up 
+git clone git@github.com:Lucien0907/configs.git ~/dev/configs
+cp ~/dev/configs/.tmux.conf ~/
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 mkdir -p ~/.config/tmux/plugins/catppuccin
 git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
-git clone git@github.com:Lucien0907/configs.git ~/dev/configs
-cp ~/dev/onfigs/.tmux.conf ~/
 
 # Install yazi
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
