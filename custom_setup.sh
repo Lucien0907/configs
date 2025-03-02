@@ -25,10 +25,12 @@ git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 # Install yazi
 git clone git@github.com:Lucien0907/yazi-config.git ~/.config/yazi
 curl -L -o yazi.zip https://github.com/sxyazi/yazi/releases/download/v25.3.2/yazi-x86_64-unknown-linux-gnu.zip
-unzip -q yazi.zip && rm yazi.zip
-sudo rm -rf /opt/yazi && sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
+unzip -q yazi.zip
+sudo rm -rf /opt/yazi
+sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
 echo 'export PATH="/opt/yazi:$PATH"' >> ~/.bashrc
 source ~/.bashrc
+rm yazi.zip
 
 # Install pyenv
 sudo apt update && sudo apt upgrade -y
@@ -94,4 +96,11 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 
-# Install the Docker
+# Install the Docker packages.
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Manage Docker as a non-root user
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+docker run hello-world
