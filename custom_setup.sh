@@ -21,6 +21,7 @@ git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 # Install yazi
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 source ~/.bashrc 
+. "$HOME/.cargo/env"
 rustup update
 cargo install --locked yazi-fm yazi-cli
 
