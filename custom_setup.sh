@@ -118,7 +118,7 @@ for line in \
 done
 source ~/.bashrc
 
-curl -fsSL https://pyenv.run | bash
+curl -fsSL https://pyenv.run | bash -s -- -y
 pyenv install 3.10.16
 pyenv global 3.10.16
 pyenv versions
