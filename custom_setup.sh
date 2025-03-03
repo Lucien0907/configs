@@ -109,6 +109,7 @@ sudo apt install -y build-essential libssl-dev zlib1g-dev \
   libbz2-dev libreadline-dev libsqlite3-dev curl git \
   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
+curl -fsSL https://pyenv.run | bash -s -- -y
 for line in \
   'export PYENV_ROOT="$HOME/.pyenv"' \
   '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' \
@@ -117,8 +118,6 @@ for line in \
   grep -qxF "$line" ~/.profile || echo "$line" >>~/.profile
 done
 source ~/.bashrc
-
-curl -fsSL https://pyenv.run | bash -s -- -y
 pyenv install 3.10.16
 pyenv global 3.10.16
 pyenv versions
