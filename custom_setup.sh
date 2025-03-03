@@ -45,8 +45,10 @@ echo $PROTOCOL
 echo $EMAIL
 
 # For ghostty
-sed -i '1i export TERM=xterm-256color' ~/.bashrc
-source ~/.bashrc 
+if ! grep -q "1i export TERM=xterm-256color" ~/.bashrc; then
+  sed -i '1i export TERM=xterm-256color' ~/.bashrc
+  source ~/.bashrc 
+fi
 
 sudo apt update && sudo apt upgrade -y
 
@@ -69,16 +71,10 @@ git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 # Install yazi
-sudo rm -rf /opt/yazi 
-sudo apt update && sudo apt install -y unzip
-git clone $GITHUB_BASE_URL/yazi-config.git ~/.config/yazi
-curl -L -o yazi.zip https://github.com/sxyazi/yazi/releases/download/v25.3.2/yazi-x86_64-unknown-linux-gnu.zip
-unzip -q yazi.zip 
-sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
-echo 'export PATH="/opt/yazi:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-rm yazi.zip
-
+if ! grep -q 'export PATH="/opt/yazi:$PATH"' ~/.bashrc; then
+  echo 'export PATH="/opt/yazi:$PATH"' >> ~/.bashrc
+  source ~/.bashrc
+fi
 YAZI_FUNC='
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -92,21 +88,30 @@ function y() {
 if ! grep -q "function y() {" ~/.bashrc; then
   echo "$YAZI_FUNC" >> ~/.bashrc
 fi
+sudo rm -rf /opt/yazi 
+sudo apt update && sudo apt install -y unzip
+git clone $GITHUB_BASE_URL/yazi-config.git ~/.config/yazi
+curl -L -o yazi.zip https://github.com/sxyazi/yazi/releases/download/v25.3.2/yazi-x86_64-unknown-linux-gnu.zip
+unzip -q yazi.zip 
+sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
+rm yazi.zip
 
 # Install pyenv
+for line in \
+  'export PYENV_ROOT="$HOME/.pyenv"' \
+  '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' \
+  'eval "$(pyenv init - bash)"'; do
+  grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
+  grep -qxF "$line" ~/.profile || echo "$line" >> ~/.profile
+done
+source ~/.bashrc
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y build-essential libssl-dev zlib1g-dev \
 libbz2-dev libreadline-dev libsqlite3-dev curl git \
 libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
 curl -fsSL https://pyenv.run | bash -s -- -y
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init - bash)"' >> ~/.bashrc
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-echo 'eval "$(pyenv init - bash)"' >> ~/.profile
-source ~/.bashrc
 pyenv install 3.10.16
 pyenv global 3.10.16
 pyenv versions
@@ -120,10 +125,12 @@ pipx inject poetry poetry-plugin-shell
 source ~/.bashrc
 
 # Install neovim
+if ! grep -q 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' ~/.bashrc; then
+  echo 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' >> ~/.bashrc
+fi
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-echo 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 sudo apt install -y imagemagick libmagickwand-dev
 git clone -b linux https://github.com/Lucien0907/nvim.git ~/.config/nvim
