@@ -110,13 +110,19 @@ sudo apt install -y build-essential libssl-dev zlib1g-dev \
   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
 curl -fsSL https://pyenv.run | bash -s -- -y
-for line in \
-  'export PYENV_ROOT="$HOME/.pyenv"' \
-  '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' \
-  'eval "$(pyenv init - bash)"'; do
-  grep -qxF "$line" ~/.bashrc || echo "$line" >>~/.bashrc
-  grep -qxF "$line" ~/.profile || echo "$line" >>~/.profile
-done
+# for line in \
+#   'export PYENV_ROOT="$HOME/.pyenv"' \
+#   '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' \
+#   'eval "$(pyenv init - bash)"'; do
+#   grep -qxF "$line" ~/.bashrc || echo "$line" >>~/.bashrc
+#   grep -qxF "$line" ~/.profile || echo "$line" >>~/.profile
+# done
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bashrc
+echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bashrc
+echo 'eval "$(pyenv init - bash)"' >>~/.bashrc
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.profile
+echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.profile
+echo 'eval "$(pyenv init - bash)"' >>~/.profile
 source ~/.bashrc
 pyenv install 3.10.16
 pyenv global 3.10.16
