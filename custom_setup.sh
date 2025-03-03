@@ -4,6 +4,8 @@
 sed -i '1i export TERM=xterm-256color' ~/.bashrc
 source ~/.bashrc 
 
+sudo apt update && sudo apt upgrade -y
+
 # Generate ssh key pair
 ssh-keygen -t rsa -C tao-wei_chan -f ~/.ssh/id_rsa -N ""
 cat ~/.ssh/id_rsa.pub
@@ -23,14 +25,13 @@ git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 # Install yazi
+sudo apt update && sudo apt upgrade -y
 git clone git@github.com:Lucien0907/yazi-config.git ~/.config/yazi
 curl -L -o yazi.zip https://github.com/sxyazi/yazi/releases/download/v25.3.2/yazi-x86_64-unknown-linux-gnu.zip
-unzip -q yazi.zip
-sudo rm -rf /opt/yazi
-sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
+unzip -q yazi.zip && rm yazi.zip
+sudo rm -rf /opt/yazi && sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
 echo 'export PATH="/opt/yazi:$PATH"' >> ~/.bashrc
 source ~/.bashrc
-rm yazi.zip
 
 # Install pyenv
 sudo apt update && sudo apt upgrade -y
@@ -73,7 +74,6 @@ rm -f nvim-linux-x86_64.tar.gz
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
-sudo install lazygit -D -t /usr/local/bin/
 lazygit --version
 rm -f lazygit.tar.gz
 rm -rf lazygit
