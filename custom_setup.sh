@@ -79,6 +79,20 @@ echo 'export PATH="/opt/yazi:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 rm yazi.zip
 
+YAZI_FUNC='
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+'
+if ! grep -q "function y() {" ~/.bashrc; then
+  echo "$YAZI_FUNC" >> ~/.bashrc
+fi
+
 # Install pyenv
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y build-essential libssl-dev zlib1g-dev \
