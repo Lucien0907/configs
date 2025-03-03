@@ -26,7 +26,7 @@ git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 
 # Install yazi
 sudo rm -rf /opt/yazi 
-sudo apt update && sudo apt instsall -y unzip
+sudo apt update && sudo apt install -y unzip
 git clone git@github.com:Lucien0907/yazi-config.git ~/.config/yazi
 curl -L -o yazi.zip https://github.com/sxyazi/yazi/releases/download/v25.3.2/yazi-x86_64-unknown-linux-gnu.zip
 unzip -q yazi.zip 
