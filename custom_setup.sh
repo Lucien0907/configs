@@ -54,6 +54,9 @@ fi
 echo '############################## updrade apt packages ##############################'
 sudo apt update && sudo apt upgrade -y
 
+echo '############################## install ubuntu-drivers-common ##############################'
+sudo apt install ubuntu-drivers-common
+
 # Generate ssh key pair
 echo '############################## generate ssh key pair ##############################'
 ssh-keygen -t rsa -C tao-wei_chan -f ~/.ssh/id_rsa -N ""
@@ -233,4 +236,12 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo groupadd docker
 sudo usermod -aG docker $USER
 newgrp docker
-docker run hello-world
+
+# install nvidia container-toolkit
+echo '############################## install docker ##############################'
+read -p "nvidia-container-toolkit?"
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &&
+  curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list |
+  sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' |
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
