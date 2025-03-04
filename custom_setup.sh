@@ -65,6 +65,9 @@ echo '############################## set up git user name & email ##############
 git config --global user.name "Tao-Wei Chan"
 git config --global user.email $EMAIL
 
+# Install nvidia driver
+echo '############################## Install Nvidia Driver ##############################'
+
 # Set up tmux
 echo '############################## set up tmux ##############################'
 read -p "tmux?"
