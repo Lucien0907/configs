@@ -51,12 +51,6 @@ if ! grep -q "1i export TERM=xterm-256color" ~/.bashrc; then
   source ~/.bashrc
 fi
 
-echo '############################## updrade apt packages ##############################'
-sudo apt update && sudo apt upgrade -y
-
-echo '############################## install ubuntu-drivers-common ##############################'
-sudo apt install ubuntu-drivers-common
-
 # Generate ssh key pair
 echo '############################## generate ssh key pair ##############################'
 ssh-keygen -t rsa -C tao-wei_chan -f ~/.ssh/id_rsa -N ""
@@ -67,6 +61,12 @@ read -p "Copy and add the public key to github and ado, then Enter to continue..
 echo '############################## set up git user name & email ##############################'
 git config --global user.name "Tao-Wei Chan"
 git config --global user.email $EMAIL
+
+echo '############################## updrade apt packages ##############################'
+sudo apt update && sudo apt upgrade -y
+
+echo '############################## install ubuntu-drivers-common ##############################'
+sudo apt install ubuntu-drivers-common
 
 # Install nvidia driver
 echo '############################## Install Nvidia Driver ##############################'
