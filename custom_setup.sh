@@ -67,6 +67,7 @@ git config --global user.email $EMAIL
 
 # Set up tmux
 echo '############################## set up tmux ##############################'
+read -p "tmux?"
 mkdir -p ~/dev
 git clone $GITHUB_BASE_URL/configs.git ~/dev/configs
 cp ~/dev/configs/.tmux.conf ~/
@@ -77,6 +78,7 @@ git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 
 # Install yazi
 echo '############################## install yazi ##############################'
+read -p "yazi?"
 sudo apt update && sudo apt install -y unzip
 if ! grep -q 'export PATH="/opt/yazi:$PATH"' ~/.bashrc; then
   echo 'export PATH="/opt/yazi:$PATH"' >>~/.bashrc
@@ -104,6 +106,7 @@ rm yazi.zip
 
 # Install pyenv
 echo '############################## install pyenv ##############################'
+read -p "pyenv?"
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y build-essential libssl-dev zlib1g-dev \
   libbz2-dev libreadline-dev libsqlite3-dev curl git \
@@ -124,24 +127,28 @@ echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.profile
 echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.profile
 echo 'eval "$(pyenv init - bash)"' >>~/.profile
 source ~/.bashrc
+source ~/.profile
 pyenv install 3.10.16
 pyenv global 3.10.16
 pyenv versions
 
 # Install pipx
 echo '############################## install pipx ##############################'
+read -p "pipx?"
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y pipx
 pipx ensurepath
 
 # Install poetry
 echo '############################## install poetry ##############################'
+read -p "poetry?"
 pipx install poetry
 pipx inject poetry poetry-plugin-shell
 source ~/.bashrc
 
 # Install neovim
 echo '############################## install neovim ##############################'
+read -p "neovim?"
 if ! grep -q 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' ~/.bashrc; then
   echo 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' >>~/.bashrc
 fi
@@ -154,6 +161,7 @@ git clone -b ubuntu $GITHUB_BASE_URL/nvim.git ~/.config/nvim
 rm -f nvim-linux-x86_64.tar.gz
 
 echo '############################## set up pynvim venv ##############################'
+read -p "pynvim?"
 NVIM_OPTION_FILE="$HOME/.config/nvim/lua/config/options.lua"
 pyenv virtualenv 3.10.16 pynvim
 PYENV_VERSION=pynvim pyenv exec pip install --upgrade pip
@@ -172,6 +180,7 @@ fi
 
 # Download and install nvm
 echo '############################## install nvm ##############################'
+read -p "nvm?"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 \. "$HOME/.nvm/nvm.sh"
 nvm install 22
@@ -182,6 +191,7 @@ npm install -g neovim
 
 # install lazygit
 echo '############################## install lazygit ##############################'
+read -p "lazygit?"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
@@ -192,11 +202,13 @@ rm -rf lazygit
 
 # install lazydocker
 echo '############################## install lazydocker ##############################'
+read -p "lazydocker?"
 curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 lazydocker --version
 
 # install docker
 echo '############################## install docker ##############################'
+read -p "docker?"
 # Add Docker's official GPG key:
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl
