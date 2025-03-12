@@ -172,6 +172,7 @@ NVIM_OPTION_FILE="$HOME/.config/nvim/lua/config/options.lua"
 pyenv virtualenv 3.10.16 pynvim
 PYENV_VERSION=pynvim pyenv exec pip install --upgrade pip
 PYENV_VERSION=pynvim pyenv exec pip install pynvim
+PYENV_VERSION=pynvim pyenv exec pip install debugpy
 if [ -f $NVIM_OPTION_FILE ]; then
   echo "Update neovim python provider in $NVIM_OPTION_FILE "
   if grep -q 'vim.g.python3_host_prog =' "$NVIM_OPTION_FILE"; then
