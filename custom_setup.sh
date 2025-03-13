@@ -2,7 +2,7 @@
 
 # Default values
 EMAIL=""
-PROTOCOL="https" # Default to HTTPS
+PROTOCOL="https" # Default to HTTPS protocal
 
 # Parse named arguments
 while [[ "$#" -gt 0 ]]; do
