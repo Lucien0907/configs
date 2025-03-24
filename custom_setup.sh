@@ -86,10 +86,6 @@ git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 echo '############################## install yazi ##############################'
 read -p "yazi?"
 sudo apt update && sudo apt install -y unzip
-if ! grep -q 'export PATH="/opt/yazi:$PATH"' ~/.bashrc; then
-  echo 'export PATH="/opt/yazi:$PATH"' >>~/.bashrc
-  source ~/.bashrc
-fi
 YAZI_FUNC='
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -109,6 +105,8 @@ curl -L -o yazi.zip https://github.com/sxyazi/yazi/releases/download/v25.3.2/yaz
 unzip -q yazi.zip
 sudo mv yazi-x86_64-unknown-linux-gnu /opt/yazi
 rm yazi.zip
+sudo ln -sf /opt/yazi/yazi /usr/local/bin/yazi
+sudo ln -sf /opt/yazi/ya /usr/local/bin/ya
 
 # Install pyenv
 echo '############################## install pyenv ##############################'
@@ -155,16 +153,13 @@ source ~/.bashrc
 # Install neovim
 echo '############################## install neovim ##############################'
 read -p "neovim?"
-if ! grep -q 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' ~/.bashrc; then
-  echo 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' >>~/.bashrc
-fi
 sudo apt update && sudo apt install -y fd-find ripgrep luarocks fzf imagemagick libmagickwand-dev luarocks fzf
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-source ~/.bashrc
-git clone -b ubuntu $GITHUB_BASE_URL/nvim.git ~/.config/nvim
 rm -f nvim-linux-x86_64.tar.gz
+sudo ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
+git clone -b ubuntu $GITHUB_BASE_URL/nvim.git ~/.config/nvim
 
 echo '############################## set up pynvim venv ##############################'
 read -p "pynvim?"
@@ -197,6 +192,10 @@ npm -v
 npm install -g neovim
 npm install -g tree-sitter-cli
 
+# Install tectonic
+curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+sudo mv tectonic /usr/local/bin/
+
 # install lazygit
 echo '############################## install lazygit ##############################'
 read -p "lazygit?"
@@ -211,7 +210,7 @@ rm -rf lazygit
 # install lazydocker
 echo '############################## install lazydocker ##############################'
 read -p "lazydocker?"
-curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | DIR=/usr/local/bin bash
 lazydocker --version
 
 # install nvidia container-toolkit
