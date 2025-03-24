@@ -195,6 +195,7 @@ node -v
 nvm current
 npm -v
 npm install -g neovim
+npm install -g tree-sitter-cli
 
 # install lazygit
 echo '############################## install lazygit ##############################'
