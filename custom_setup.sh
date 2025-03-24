@@ -210,7 +210,7 @@ rm -rf lazygit
 # install lazydocker
 echo '############################## install lazydocker ##############################'
 read -p "lazydocker?"
-curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | DIR=/usr/local/bin bash
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | sudo DIR=/usr/local/bin bash
 lazydocker --version
 
 # install nvidia container-toolkit
